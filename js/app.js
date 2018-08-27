@@ -22,8 +22,8 @@
       const $poster = $('<img>').addClass('poster');
 
       $poster.attr({
-        src: movie.poster,
-        alt: `${movie.poster} Poster`
+        src: movie.Poster,
+        alt: `${movie.Poster} Poster`
       });
 
       $content.append($title, $poster);
@@ -56,5 +56,33 @@
     }
   };
 
+
   // ADD YOUR CODE HERE
+
+  let searchBar = document.querySelector('#search');
+
+  document.querySelector('form').addEventListener('submit', function(event){  
+
+    //Don't reload the page.
+    event.preventDefault();
+
+    //Does the search bar have a value?
+    if(searchBar.value){
+
+      axios.get(`https://omdb-api.now.sh/?s=${searchBar.value}`)
+      .then(function (response) {
+
+        for(let i = 0; i < response.data.Search.length; i++){
+          movies.push(response.data.Search[i]);
+          // console.log(response.data.Search[i]);
+        }
+
+        renderMovies();
+
+      });
+
+    }
+
+  });
+
 })();
